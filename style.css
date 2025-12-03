@@ -1,0 +1,327 @@
+:root {
+    --bg-gradient: linear-gradient(135deg, #1a1c2c 0%, #4a192c 100%);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-color: #ffffff;
+    --font-family: 'Outfit', sans-serif;
+
+    /* Balloon Colors */
+    --color-red: #ff5e5e;
+    --color-blue: #5e8eff;
+    --color-green: #5eff8e;
+    --color-yellow: #ffea5e;
+    --color-purple: #bd5eff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--bg-gradient);
+    color: var(--text-color);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    z-index: 10;
+    margin-top: 2rem;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+}
+
+.prompt-box {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.prompt-box p {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+#target-color-name {
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0 0.5rem;
+    border-radius: 8px;
+}
+
+#game-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* Let clicks pass through to balloons */
+    overflow: hidden;
+}
+
+.balloon {
+    position: absolute;
+    bottom: -150px;
+    /* Start below screen */
+    width: 80px;
+    height: 100px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 20%),
+        var(--balloon-color);
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.3),
+        5px 10px 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    pointer-events: auto;
+    animation: floatUp linear forwards;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.1s;
+}
+
+.balloon::before {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    width: 2px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.balloon:active {
+    transform: scale(0.95);
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-120vh) rotate(20deg);
+        opacity: 1;
+    }
+}
+
+/* Pop Animation Class */
+.popped {
+    animation: pop 0.2s ease-out forwards !important;
+    pointer-events: none;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.4);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+footer#scoreboard {
+    z-index: 10;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 1rem;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+}
+
+#scoreboard h2 {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#score-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.score-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.score-bubble {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--score-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    color: #333;
+    /* Contrast for numbers */
+    font-size: 1.1rem;
+}
+
+.score-label {
+    font-size: 0.9rem;
+    text-transform: capitalize;
+    opacity: 0.9;
+}
+
+/* Game Over Overlay */
+#game-over-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+#game-over-overlay.hidden {
+    display: none;
+}
+
+.modal {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    padding: 3rem;
+    border-radius: 30px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    transform: scale(0.8);
+    animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.modal h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #ff5e5e;
+    text-shadow: 0 0 20px rgba(255, 94, 94, 0.5);
+}
+
+.modal p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+#retry-btn {
+    background: linear-gradient(45deg, #ff5e5e, #ffbd5e);
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 94, 94, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: var(--font-family);
+}
+
+#retry-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 94, 94, 0.6);
+}
+
+#retry-btn:active {
+    transform: translateY(1px);
+}
+
+/* Explosion Animation */
+.explosion {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, #ff5e5e 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    pointer-events: none;
+    z-index: 50;
+}
+
+.explosion.active {
+    animation: explode 0.6s ease-out forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    to {
+        transform: scale(1);
+    }
+}

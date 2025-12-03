@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balloon Pop Challenge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <header>
+            <h1>Balloon Pop</h1>
+            <div id="prompt-container" class="prompt-box">
+                <p>Pop the <span id="target-color-name">...</span> balloon!</p>
+            </div>
+        </header>
+
+        <main id="game-area">
+            <!-- Balloons will spawn here -->
+            <div id="explosion" class="explosion hidden"></div>
+        </main>
+
+        <div id="game-over-overlay" class="hidden">
+            <div class="modal">
+                <h2>BOOM! 💥</h2>
+                <p>You popped the wrong balloon!</p>
+                <div id="final-score"></div>
+                <button id="retry-btn">Try Again</button>
+            </div>
+        </div>
+
+        <footer id="scoreboard">
+            <h2>Collection</h2>
+            <div id="score-grid">
+                <!-- Scores will be injected here -->
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
